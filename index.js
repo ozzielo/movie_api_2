@@ -1,7 +1,7 @@
-const express = require('express');
-const morgan = require('morgan');
-
-const app = express();
+const express = require('express'),
+  morgan = require('morgan'),
+  bodyParser = require('body-parser'),
+  app = express();
 const topMovies = [
   {
     title: 'The Shawshank Redemption',
@@ -85,7 +85,7 @@ const topMovies = [
     ],
     director: 'Martin Scorsese',
     cast: [
-      'Leonardo DiCarprio',
+      'Leonardo DiCaprio',
       'Jonah Hill',
       'Margot Robbie'
     ]
@@ -95,7 +95,7 @@ const topMovies = [
     genre: 'Drama',
     director: 'Paul Thomas Anderson',
     cast: [
-      'Daniell Day-Lewis',
+      'Daniel Day-Lewis',
       'Paul Dano',
       'Ciarán Hinds'
     ]
@@ -139,6 +139,39 @@ app.get('/', (req, res) => {
 app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
+
+app.get('/movies/:title', (req, res) => {
+  res.json(topMovies.find((movie) => movie.title === req.params.title));
+});
+
+app.get('/movies/genres/:title', (req, res) => {
+  res.send('Movie Genre Description');
+});
+
+app.get('/directors/:name', (req, res) => {
+  res.send('Director Bio');
+});
+
+app.post('/users', (req, res) => {
+  res.send('You are now subscribed!');
+});
+
+app.put('/users/:name/:changeName', (req, res) => {
+  res.send('Username Updated!');
+});
+
+app.post('/users/:name/favorites/:title', (req, res) => {
+  res.send('Added ________ to your favorites!');
+});
+
+app.delete('/users/:name/favorites/:title', (req, res) => {
+  res.send('Deleted ________ from your favorites!');
+});
+
+app.delete('/users/:name', (req, res) => {
+  res.send('Account Deleted!');
+});
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

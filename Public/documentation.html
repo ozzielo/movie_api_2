@@ -1,16 +1,207 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Movie API Documentation</title>
+  <style>
+  table, th, td {
+    border: 1px solid black;
+  }
+  </style>
 </head>
-  <body>
 
+<body>
+  <main>
     <h1>Objective:</h1>
     <p>To build the server-side component of a movies web application. The web application will provide users with
-    access to information about different movies, directors, and genres. Users will be able to sign up, update their
-    personal information, and create a list of their favorite movies</p>
+      access to information about different movies, directors, and genres. Users will be able to sign up, update their
+      personal information, and create a list of their favorite movies</p>
+
+    <table>
+      <caption>Endpoint Documentation</caption>
+      <thead>
+        <tr>
+          <th>
+            <h2>Description</h2>
+          </th>
+          <th>
+            <h2>URL</h2>
+          </th>
+          <th>
+            <h2>Method</h2>
+          </th>
+          <th>
+            <h2>Query Parameters</h2>
+          </th>
+          <th>
+            <h2>Request Body</h2>
+          </th>
+          <th>
+            <h2>Response Body</h2>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Return a list of all the movies to the user</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>none</td>
+          <td>none</td>
+          <td>
+            <p>
+              A JSON response with the movie database as an object<br><br>
+              <b>e.g.</b><br>
+              {<br>
+              &nbsp&nbsp"title": "The Shawshank Redemption"<br>
+              },<br>
+              {<br>
+              &nbsp&nbsp"title": "Forrest Gump"<br>
+              },<br>
+              {<br>
+              &nbsp&nbsp"title": "The Dark Knight"<br>
+              }
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Return data (description, genre, director) about a single movie by title</td>
+          <td>/movies/:title</td>
+          <td>GET</td>
+          <td>title</td>
+          <td>none</td>
+          <td>
+            <p>
+              A JSON response with the requested movie title as an object<br><br>
+              <b>e.g.</b><br>
+              {<br>
+              &nbsp&nbsp"title": "The Shawshank Redemption"<br>
+              }
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Return data about a genre description by title</td>
+          <td>/movies/genres/:title</td>
+          <td>GET</td>
+          <td>title</td>
+          <td>none</td>
+          <td>
+            <p>
+              An html response with a description of the requested genre<br><br>
+              <b>e.g.</b><br>
+              <b>Drama</b> - The drama genre features stories with high stakes and a lot of conflicts. They're plot-driven and demand that every character and scene move the story forward. Dramas follow a clearly defined narrative plot structure, portraying real-life scenarios or extreme situations with emotionally-driven characters.
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>Return data about a director (bio, birth/death year) by name</td>
+          <td>/directors/:name</td>
+          <td>GET</td>
+          <td>name</td>
+          <td>none</td>
+          <td>
+            <p>
+              An html response with a description of the requested director<br><br>
+              <b>e.g.</b><br>
+              <b>Christopher Nolan</b> - Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made. At 7 years old, Nolan began making short movies ...
+        </tr>
+        <tr>
+          <td>Allow new users to register</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>none</td>
+          <td>
+            <p>
+              Type: JSON<br><br>
+              <strong>e.g.</strong><br>
+              {<br>
+              &nbsp&nbspuserId: int<br>
+              &nbsp&nbspUsername: String<br>
+              &nbsp&nbspPassword: String<br>
+              &nbsp&nbspEmail: String<br>
+              &nbsp&nbspBirthday: Date<br>
+              }
+            </p>
+          </td>
+          <td>
+            <p>
+              An html response that the account has been created<br><br>
+              <b>e.g.</b><br>
+              You are now subscribed!<br>
+            </p>
+        </tr>
+        <tr>
+          <td>Allow users to update their user info</td>
+          <td>/users/:name/:changeName</td>
+          <td>PUT</td>
+          <td>name<br>changeName</td>
+          <td>New info</td>
+          <td>
+            <p>
+              An html response showing the account has been changed<br><br>
+              <b>e.g.</b><br>
+              Username Updated!
+            </p>
+        </tr>
+        <tr>
+          <td>Allow users to add a movie to their list of favorites</td>
+          <td>POST</td>
+          <td>/users/:name/favorites/:title</td>
+          <td>name<br>title</td>
+          <td>
+            <p>
+              Type: JSON<br><br>
+              <strong>e.g.</strong><br>
+              {<br>
+                &nbsp&nbspname : 'User',<br>
+                &nbsp&nbspuserId: 'int',<br>
+                &nbsp&nbspfavorites : ['movie1']<br>
+              }<br>
+            </p>
+          </td>
+          <td>
+            <p>
+              An html response that the movie selected has been added to the favorites<br><br>
+              <b>e.g.</b><br>
+              Added ________ to your favorites!<br><br>
+            </p>
+        </tr>
+        <tr>
+          <td>Allow users to remove a movie from their list of favorites</td>
+          <td>DELETE</td>
+          <td>/users/:name/favorites/:title</td>
+          <td>name<br>title</td>
+          <td>none</td>
+          <td>
+            <p>
+              An html response that the movie selected has been removed from the favorites list<br><br>
+              <b>e.g.</b><br>
+              Deleted ________ from your favorites!<br><br>
+            </p>
+        </tr>
+        <tr>
+          <td>Allow existing users to deregister</td>
+          <td>DELETE</td>
+          <td>/users/:name</td>
+          <td>name</td>
+          <td>none</td>
+          <td>
+            <p>
+              An html response that the account has been deleted<br><br>
+              <strong>e.g.</strong><br>
+              Account Deleted!<br><br>
+            </p>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+  <footer>
+  </footer>
 </body>
+
 </html>
