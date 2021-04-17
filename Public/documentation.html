@@ -56,15 +56,27 @@
             <p>
               A JSON response with the movie database as an object<br><br>
               <b>e.g.</b><br>
-              {<br>
-              &nbsp&nbsp"title": "The Shawshank Redemption"<br>
-              },<br>
-              {<br>
-              &nbsp&nbsp"title": "Forrest Gump"<br>
-              },<br>
-              {<br>
-              &nbsp&nbsp"title": "The Dark Knight"<br>
-              }
+              [{<br>
+              "Genre": {<br>
+        &nbsp&nbsp"Name": "Crime",<br>
+        &nbsp&nbsp"Description": "Crime fiction is the genre of fiction that deals with crimes, their detection, criminals, and their motives. ... First there is the crime, usually a murder; then there is the investigation; and finally the outcome or judgement, often in the shape of the criminal's arrest or death."
+    },<br>
+    "Director": {<br>
+        &nbsp&nbsp"Name": "Christopher Nolan",<br>
+        &nbsp&nbsp"Bio": "Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made. At 7 years old, Nolan began making short movies on a much smaller scale.",<br>
+        &nbsp&nbsp"Birth": "1970"<br>
+    },<br>
+    "Actors": [
+        "Christian Bale",
+        "Heath Ledger"
+    ],<br>
+    "_id": "6074f867a74ca68ce4aea1f0",<br>
+    "Title": "The Dark Knight",<br>
+    "Description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",<br>
+    "ImagePath": "thedarkknight.png",<br>
+    "Featured": true <br>
+}, array of these movie ojects ] <br>
+
             </p>
           </td>
         </tr>
@@ -79,8 +91,25 @@
               A JSON response with the requested movie title as an object<br><br>
               <b>e.g.</b><br>
               {<br>
-              &nbsp&nbsp"title": "The Shawshank Redemption"<br>
-              }
+              "Genre": {<br>
+        &nbsp&nbsp"Name": "Crime",<br>
+        &nbsp&nbsp"Description": "Crime fiction is the genre of fiction that deals with crimes, their detection, criminals, and their motives. ... First there is the crime, usually a murder; then there is the investigation; and finally the outcome or judgement, often in the shape of the criminal's arrest or death."
+    },<br>
+    "Director": {<br>
+        &nbsp&nbsp"Name": "Christopher Nolan",<br>
+        &nbsp&nbsp"Bio": "Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made. At 7 years old, Nolan began making short movies on a much smaller scale.",<br>
+        &nbsp&nbsp"Birth": "1970"<br>
+    },<br>
+    "Actors": [
+        "Christian Bale",
+        "Heath Ledger"
+    ],<br>
+    "_id": "6074f867a74ca68ce4aea1f0",<br>
+    "Title": "The Dark Knight",<br>
+    "Description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",<br>
+    "ImagePath": "thedarkknight.png",<br>
+    "Featured": true <br>
+}
             </p>
           </td>
         </tr>
@@ -92,9 +121,12 @@
           <td>none</td>
           <td>
             <p>
-              An html response with a description of the requested genre<br><br>
+              A JSON response with a description of the requested genre<br><br>
               <b>e.g.</b><br>
-              <b>Drama</b> - The drama genre features stories with high stakes and a lot of conflicts. They're plot-driven and demand that every character and scene move the story forward. Dramas follow a clearly defined narrative plot structure, portraying real-life scenarios or extreme situations with emotionally-driven characters.
+              {<br>
+    "Name": "Drama",<br>
+    "Description": "Drama is a mode of fictional representation through dialogue and performance. It is one of the literary genres, which is an imitation of some action. It contains conflict of characters, particularly the ones who perform in front of audience on the stage. ..."<br>
+}
             </p>
           </td>
         </tr>
@@ -106,9 +138,13 @@
           <td>none</td>
           <td>
             <p>
-              An html response with a description of the requested director<br><br>
+              An JSON response with a description of the requested director<br><br>
               <b>e.g.</b><br>
-              <b>Christopher Nolan</b> - Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made. At 7 years old, Nolan began making short movies ...
+              {<br>
+    "Name": "Christopher Nolan",<br>
+    "Bio": "Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made. At 7 years old, Nolan began making short movies on a much smaller scale.",<br>
+    "Birth": "1970"<br>
+}
         </tr>
         <tr>
           <td>Allow new users to register</td>
@@ -130,29 +166,49 @@
           </td>
           <td>
             <p>
-              An html response that the account has been created<br><br>
+              A JSON response of the newly registered account's information<br><br>
               <b>e.g.</b><br>
-              You are now subscribed!<br>
+              {<br>
+                 "_id" : ObjectId("6074c1a8a74ca68ce4aea1eb"),<br>
+                 "Username" : "MovieLover92",<br>
+                 "Password" : "Cimena123",<br>
+                 "Email" : "ireallylovemovies@gmail.com",<br>
+                 "Birthday" : ISODate("1992-01-12T00:00:00Z"),<br>
+                 "Favorites" : [<br>
+                   &nbsp&nbspObjectId("60736fbba74ca68ce4aea1e0"),<br>
+                   &nbsp&nbspObjectId("6074a3d8a74ca68ce4aea1e1"),<br>
+                   &nbsp&nbspObjectId("6074a49ba74ca68ce4aea1e2")<br>
+                   ] }<br>
             </p>
         </tr>
         <tr>
           <td>Allow users to update their user info</td>
-          <td>/users/:name/:changeName</td>
+          <td>/users/:Username/</td>
           <td>PUT</td>
-          <td>name<br>changeName</td>
-          <td>New info</td>
+          <td>Username</td>
+          <td>JSON</td>
           <td>
             <p>
-              An html response showing the account has been changed<br><br>
+              An JSON response showing the updated user information<br><br>
               <b>e.g.</b><br>
-              Username Updated!
+              {<br>
+                 "_id" : ObjectId("6074c1a8a74ca68ce4aea1eb"),<br>
+                 "Username" : "MovieLover92",<br>
+                 "Password" : "ChangedPassword",<br>
+                 "Email" : "ireallylovemovies@gmail.com",<br>
+                 "Birthday" : ISODate("1992-01-12T00:00:00Z"),<br>
+                 "Favorites" : [<br>
+                   &nbsp&nbspObjectId("60736fbba74ca68ce4aea1e0"),<br>
+                   &nbsp&nbspObjectId("6074a3d8a74ca68ce4aea1e1"),<br>
+                   &nbsp&nbspObjectId("6074a49ba74ca68ce4aea1e2")<br>
+                   ] }<br>
             </p>
         </tr>
         <tr>
           <td>Allow users to add a movie to their list of favorites</td>
+          <td>/users/:Username/Favorites/:MovieID</td>
           <td>POST</td>
-          <td>/users/:name/favorites/:title</td>
-          <td>name<br>title</td>
+          <td>Username<br>MovieID</td>
           <td>
             <p>
               Type: JSON<br><br>
@@ -166,29 +222,50 @@
           </td>
           <td>
             <p>
-              An html response that the movie selected has been added to the favorites<br><br>
+              An JSON response that the movie selected has been added to the favorites<br><br>
               <b>e.g.</b><br>
-              Added ________ to your favorites!<br><br>
+              {<br>
+                 "_id" : ObjectId("6074c1a8a74ca68ce4aea1eb"),<br>
+                 "Username" : "MovieLover92",<br>
+                 "Password" : "ChangedPassword",<br>
+                 "Email" : "ireallylovemovies@gmail.com",<br>
+                 "Birthday" : ISODate("1992-01-12T00:00:00Z"),<br>
+                 "Favorites" : [<br>
+                   &nbsp&nbspObjectId("60736fbba74ca68ce4aea1e0"),<br>
+                   &nbsp&nbspObjectId("6074a3d8a74ca68ce4aea1e1"),<br>
+                   &nbsp&nbspObjectId("6074a49ba74ca68ce4aea1e2"),<br>
+                   &nbsp&nbspObjectId("6074a6e1a74ca68ce4aea1e7")<br>
+                   ] }<br>
             </p>
         </tr>
         <tr>
           <td>Allow users to remove a movie from their list of favorites</td>
+          <td>/users/:Username/Favorites/:MovieID</td>
           <td>DELETE</td>
-          <td>/users/:name/favorites/:title</td>
-          <td>name<br>title</td>
+          <td>Username<br>MovieID</td>
           <td>none</td>
           <td>
             <p>
-              An html response that the movie selected has been removed from the favorites list<br><br>
+              An JSON response that the movie selected has been removed from the favorites list<br><br>
               <b>e.g.</b><br>
-              Deleted ________ from your favorites!<br><br>
+              {<br>
+                 "_id" : ObjectId("6074c1a8a74ca68ce4aea1eb"),<br>
+                 "Username" : "MovieLover92",<br>
+                 "Password" : "ChangedPassword",<br>
+                 "Email" : "ireallylovemovies@gmail.com",<br>
+                 "Birthday" : ISODate("1992-01-12T00:00:00Z"),<br>
+                 "Favorites" : [<br>
+                   &nbsp&nbspObjectId("60736fbba74ca68ce4aea1e0"),<br>
+                   &nbsp&nbspObjectId("6074a3d8a74ca68ce4aea1e1"),<br>
+                   &nbsp&nbspObjectId("6074a49ba74ca68ce4aea1e2")<br>
+                   ] }<br>
             </p>
         </tr>
         <tr>
           <td>Allow existing users to deregister</td>
+          <td>/users/:Username</td>
           <td>DELETE</td>
-          <td>/users/:name</td>
-          <td>name</td>
+          <td>Username</td>
           <td>none</td>
           <td>
             <p>
