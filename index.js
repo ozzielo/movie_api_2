@@ -8,6 +8,8 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
+const { check, validationResult } = require('express-validator');
+
 mongoose.connect('mongodb://localhost:27017/test',
 { useNewUrlParser: true, useUnifiedTopology: true});
 // const topMovies = [
@@ -199,7 +201,19 @@ app.get('/directors/:name', (req, res) => {
   // res.send('Director Bio');
 });
 
-app.post('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/users', passport.authenticate('jwt', { session: false }), [
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+], (req, res) => {
+
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errorss.array() });
+  }
+  let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -299,6 +313,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Watching movies, be back soon!');
 });
 
-app.listen(8080, () => {
-  console.log('The website server is always listening!');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+  console.log('The website server is always listening on Port' + port);
 });
