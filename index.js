@@ -141,7 +141,8 @@ mongoose.connect('process.env.CONNECTION_URI',
 //     ]
 //   }
 // ];
-
+const cors = require('cors');
+app.use(cors());
 app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }))
