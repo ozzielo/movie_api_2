@@ -15,7 +15,132 @@ const { check, validationResult } = require('express-validator');
 
 mongoose.connect('process.env.CONNECTION_URI',
 { useNewUrlParser: true, useUnifiedTopology: true});
-
+// const topMovies = [
+//   {
+//     title: 'The Shawshank Redemption',
+//     genre: 'Drama',
+//     director: 'Frank Darabont',
+//     cast: [
+//       'Tim Robbins',
+//       'Morgan Freeman'
+//     ]
+//   },
+//   {
+//     title: 'Forrest Gump',
+//     genre: [
+//       'Drama',
+//       'Romance'
+//     ],
+//     director: 'Robert Zemeckis',
+//     cast: [
+//       'Tom Hanks',
+//       'Robin Wright',
+//       'Gary Sinise'
+//     ]
+//   },
+//   {
+//     title: 'The Dark Knight',
+//     genre: [
+//       'Action',
+//       'Crime',
+//       'Drama'
+//     ],
+//     director: 'Christopher Nolan',
+//     cast: [
+//       'Christian Bale',
+//       'Heath Ledger'
+//     ]
+//   },
+//   {
+//     title: 'The Prestige',
+//     genre: [
+//       'Drama',
+//       'Mystery',
+//       'Sci-Fi'
+//     ],
+//     director: 'Christopher Nolan',
+//     cast: [
+//       'Christian Bale',
+//       'Hugh Jackman',
+//       'Scarlett Johansson'
+//     ]
+//   },
+//   {
+//     title: 'Step Brothers',
+//     genre: 'Comedy',
+//     director: 'Adam Mckay',
+//     cast: [
+//       'Will Ferrell',
+//       'John C. Reilly',
+//       'Mary Steenburgen'
+//     ]
+//   },
+//   {
+//     title: 'Interstellar',
+//     genre: [
+//       'Adventure',
+//       'Drama',
+//       'Sci-Fi'
+//     ],
+//     director: 'Christopher Nolan',
+//     cast: [
+//       'Matthew McConaughey',
+//       'Anne Hathaway',
+//       'Jessica Chastain'
+//     ]
+//   },
+//   {
+//     title: 'The Wolf of Wall Street',
+//     genre: [
+//       'Biography',
+//       'Crime',
+//       'Drama'
+//     ],
+//     director: 'Martin Scorsese',
+//     cast: [
+//       'Leonardo DiCaprio',
+//       'Jonah Hill',
+//       'Margot Robbie'
+//     ]
+//   },
+//   {
+//     title: 'There Will Be Blood',
+//     genre: 'Drama',
+//     director: 'Paul Thomas Anderson',
+//     cast: [
+//       'Daniel Day-Lewis',
+//       'Paul Dano',
+//       'Ciarán Hinds'
+//     ]
+//   },
+//   {
+//     title: 'Catch Me If You Can',
+//     genre: [
+//       'Biography',
+//       'Crime',
+//       'Drama'
+//     ],
+//     director: 'Steven Spielberg',
+//     cast: [
+//       'Leonardo DiCarprio',
+//       'Tom Hanks',
+//       'Christopher Walken'
+//     ]
+//   },
+//   {
+//     title: 'Gummo',
+//     genre: [
+//       'Comedy',
+//       'Drama'
+//     ],
+//     director: 'Harmony Korine',
+//     cast: [
+//       'Nick Sutton',
+//       'Jacob Sewell',
+//       'Lara Tosh'
+//     ]
+//   }
+// ];
 const cors = require('cors');
 app.use(cors());
 app.use(morgan('common'));
@@ -80,17 +205,17 @@ app.get('/directors/:name', (req, res) => {
   // res.send('Director Bio');
 });
 
-app.post('/users',
+app.post('/users', passport.authenticate('jwt', { session: false }), [
   check('Username', 'Username is required').isLength({min: 5}),
   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
-  check('Email', 'Email does not appear to be valid').isEmail(),
-   (req, res) => {
+  check('Email', 'Email does not appear to be valid').isEmail()
+], (req, res) => {
 
   let errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
+    return res.status(422).json({ errors: errorss.array() });
   }
   let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
