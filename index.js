@@ -7,14 +7,14 @@ const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
+const cors = require('cors');
+app.use(cors());
+// const { check, validationResult } = require('express-validator');
 
-const { check, validationResult } = require('express-validator');
-
-// mongoose.connect('mongodb://localhost:27017/test',
-// { useNewUrlParser: true, useUnifiedTopology: true});
-
-mongoose.connect('process.env.CONNECTION_URI',
+mongoose.connect('mongodb://localhost:27017/test',
 { useNewUrlParser: true, useUnifiedTopology: true});
+
+
 // const topMovies = [
 //   {
 //     title: 'The Shawshank Redemption',
@@ -191,7 +191,7 @@ app.get('/movies/genres/:title', passport.authenticate('jwt', { session: false }
   // res.send('Movie Genre Description');
 });
 
-app.get('/directors/:name', (req, res) => {
+app.get('/directors/:name',passport.authenticate('jwt', { session: false }), (req, res) => {
     Movies.findOne({ 'Director.Name': req.params.name})
     .then((director) => {
       res.status(201).json(director.Director);
@@ -204,18 +204,21 @@ app.get('/directors/:name', (req, res) => {
   // res.send('Director Bio');
 });
 
-app.post('/users', passport.authenticate('jwt', { session: false }), [
-  check('Username', 'Username is required').isLength({min: 5}),
-  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-  check('Password', 'Password is required').not().isEmpty(),
-  check('Email', 'Email does not appear to be valid').isEmail()
-], (req, res) => {
+app.post('/users',
 
-  let errors = validationResult(req);
+// [
+//   check('Username', 'Username is required').isLength({min: 5}),
+//   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+//   check('Password', 'Password is required').not().isEmpty(),
+//   check('Email', 'Email does not appear to be valid').isEmail()
+// ],
+ (req, res) => {
 
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errorss.array() });
-  }
+  // let errors = validationResult(req);
+  //
+  // if (!errors.isEmpty()) {
+  //   return res.status(422).json({ errors: errorss.array() });
+  // }
   let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
     .then((user) => {
@@ -316,7 +319,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Watching movies, be back soon!');
 });
 
-const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0', () => {
-  console.log('The website server is always listening on Port' + port);
+app.listen(8080, () => {
+  console.log('The website server is always listening!');
 });

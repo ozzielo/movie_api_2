@@ -2,7 +2,12 @@ const jwtSecret = 'your_jwt_secret';
 //Has to be the same key used in the JWTStrategy
 
 const jwt = require('jsonwebtoken'),
-  passport = require('passport');
+  passport = require('passport'),
+  express = require('express'),
+  app = express(),
+  bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
 
 require('./passport'); //Local passport failed
 
@@ -19,6 +24,8 @@ module.exports = (router) => {
   router.post('/login', (req, res) => {
     passport.authenticate('local', { session: false },
       (error, user, info) => {
+        console.log(req.body);
+        console.log(user);
         if (error || !user) {
           return res.status(400).json({
             message: 'Something is not right.',
