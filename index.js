@@ -9,138 +9,13 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const cors = require('cors');
 app.use(cors());
-// const { check, validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 mongoose.connect('mongodb://localhost:27017/test',
 { useNewUrlParser: true, useUnifiedTopology: true});
 
 
-// const topMovies = [
-//   {
-//     title: 'The Shawshank Redemption',
-//     genre: 'Drama',
-//     director: 'Frank Darabont',
-//     cast: [
-//       'Tim Robbins',
-//       'Morgan Freeman'
-//     ]
-//   },
-//   {
-//     title: 'Forrest Gump',
-//     genre: [
-//       'Drama',
-//       'Romance'
-//     ],
-//     director: 'Robert Zemeckis',
-//     cast: [
-//       'Tom Hanks',
-//       'Robin Wright',
-//       'Gary Sinise'
-//     ]
-//   },
-//   {
-//     title: 'The Dark Knight',
-//     genre: [
-//       'Action',
-//       'Crime',
-//       'Drama'
-//     ],
-//     director: 'Christopher Nolan',
-//     cast: [
-//       'Christian Bale',
-//       'Heath Ledger'
-//     ]
-//   },
-//   {
-//     title: 'The Prestige',
-//     genre: [
-//       'Drama',
-//       'Mystery',
-//       'Sci-Fi'
-//     ],
-//     director: 'Christopher Nolan',
-//     cast: [
-//       'Christian Bale',
-//       'Hugh Jackman',
-//       'Scarlett Johansson'
-//     ]
-//   },
-//   {
-//     title: 'Step Brothers',
-//     genre: 'Comedy',
-//     director: 'Adam Mckay',
-//     cast: [
-//       'Will Ferrell',
-//       'John C. Reilly',
-//       'Mary Steenburgen'
-//     ]
-//   },
-//   {
-//     title: 'Interstellar',
-//     genre: [
-//       'Adventure',
-//       'Drama',
-//       'Sci-Fi'
-//     ],
-//     director: 'Christopher Nolan',
-//     cast: [
-//       'Matthew McConaughey',
-//       'Anne Hathaway',
-//       'Jessica Chastain'
-//     ]
-//   },
-//   {
-//     title: 'The Wolf of Wall Street',
-//     genre: [
-//       'Biography',
-//       'Crime',
-//       'Drama'
-//     ],
-//     director: 'Martin Scorsese',
-//     cast: [
-//       'Leonardo DiCaprio',
-//       'Jonah Hill',
-//       'Margot Robbie'
-//     ]
-//   },
-//   {
-//     title: 'There Will Be Blood',
-//     genre: 'Drama',
-//     director: 'Paul Thomas Anderson',
-//     cast: [
-//       'Daniel Day-Lewis',
-//       'Paul Dano',
-//       'Ciarán Hinds'
-//     ]
-//   },
-//   {
-//     title: 'Catch Me If You Can',
-//     genre: [
-//       'Biography',
-//       'Crime',
-//       'Drama'
-//     ],
-//     director: 'Steven Spielberg',
-//     cast: [
-//       'Leonardo DiCarprio',
-//       'Tom Hanks',
-//       'Christopher Walken'
-//     ]
-//   },
-//   {
-//     title: 'Gummo',
-//     genre: [
-//       'Comedy',
-//       'Drama'
-//     ],
-//     director: 'Harmony Korine',
-//     cast: [
-//       'Nick Sutton',
-//       'Jacob Sewell',
-//       'Lara Tosh'
-//     ]
-//   }
-// ];
+
 
 app.use(morgan('common'));
 app.use(express.static('public'));
@@ -206,19 +81,19 @@ app.get('/directors/:name',passport.authenticate('jwt', { session: false }), (re
 
 app.post('/users',
 
-// [
-//   check('Username', 'Username is required').isLength({min: 5}),
-//   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-//   check('Password', 'Password is required').not().isEmpty(),
-//   check('Email', 'Email does not appear to be valid').isEmail()
-// ],
+[
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+],
  (req, res) => {
 
-  // let errors = validationResult(req);
-  //
-  // if (!errors.isEmpty()) {
-  //   return res.status(422).json({ errors: errorss.array() });
-  // }
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errorss.array() });
+  }
   let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
     .then((user) => {
@@ -228,7 +103,7 @@ app.post('/users',
         Users
           .create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password:  hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
@@ -319,6 +194,11 @@ app.use((err, req, res, next) => {
   res.status(500).send('Watching movies, be back soon!');
 });
 
-app.listen(8080, () => {
-  console.log('The website server is always listening!');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('The website server is always listening on ' + port);
 });
+
+// app.listen(8080, () => {
+//   console.log('The website server is always listening!');
+// });
