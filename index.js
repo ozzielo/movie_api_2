@@ -188,9 +188,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
       res.status(500).send('Error: ' + err);
     });
 });
-app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  res.json('Hit Get')
-});
+
 
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
