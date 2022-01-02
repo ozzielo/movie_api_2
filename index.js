@@ -72,7 +72,7 @@ app.get('/movies/genres/:title', passport.authenticate('jwt', { session: false }
 app.put('/movies/:title',
   //  passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Users.findOneAndUpdate({ Title: req.params.title }, {
+    Movies.findOneAndUpdate({ Title: req.params.title }, {
       $set:
       {
         ImagePath: req.body.ImagePath
