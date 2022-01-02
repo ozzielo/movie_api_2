@@ -69,6 +69,26 @@ app.get('/movies/genres/:title', passport.authenticate('jwt', { session: false }
   // res.send('Movie Genre Description');
 });
 
+app.put('/movies/:title',
+  //  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Users.findOneAndUpdate({ Title: req.params.title }, {
+      $set:
+      {
+        ImagePath: req.body.ImagePath
+      }
+    }, { new: true },
+      (err, updatedMovie) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        } else {
+          res.json(updatedMovie);
+        }
+      });
+    // res.send('Username Updated!');
+  });
+
 app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ 'Director.Name': req.params.name })
     .then((director) => {
