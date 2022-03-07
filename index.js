@@ -11,8 +11,7 @@ const cors = require('cors');
 app.use(cors());
 const { check, validationResult } = require('express-validator');
 
-// mongoose.connect('mongodb://localhost:27017/test',
-// { useNewUrlParser: true, useUnifiedTopology: true});
+
 mongoose.connect(process.env.CONNECTION_URI,
   { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -41,7 +40,6 @@ app.get('/movies',
         console.error(err);
         res.status(500).send('Error: ' + err);
       });
-    // res.json(topMovies);
   });
 
 app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -53,8 +51,6 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), (req
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
-
-  // res.json(topMovies.find((movie) => movie.title === req.params.title));
 });
 
 app.get('/movies/genres/:title', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -66,11 +62,9 @@ app.get('/movies/genres/:title', passport.authenticate('jwt', { session: false }
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
-  // res.send('Movie Genre Description');
 });
 
 app.put('/movies/:title',
-  //  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.findOneAndUpdate({ Title: req.params.title }, {
       $set:
@@ -86,7 +80,6 @@ app.put('/movies/:title',
           res.json(updatedMovie);
         }
       });
-    // res.send('Username Updated!');
   });
 
 app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -99,7 +92,6 @@ app.get('/directors/:name', passport.authenticate('jwt', { session: false }), (r
       res.status(500).send('Error: ' + err);
     });
 
-  // res.send('Director Bio');
 });
 
 app.post('/users',
@@ -141,7 +133,6 @@ app.post('/users',
         console.error(err);
         res.status(500).send('Error: ' + err);
       });
-    //res.send('You are now subscribed!');
   });
 
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -164,7 +155,6 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
         res.json(updatedUser);
       }
     });
-  // res.send('Username Updated!');
 });
 
 app.post('/users/:Username/Favorites/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -180,7 +170,6 @@ app.post('/users/:Username/Favorites/:MovieID', passport.authenticate('jwt', { s
         res.json(updatedUser);
       }
     });
-  // res.send('Added ________ to your favorites!');
 });
 
 app.delete('/users/:Username/Favorites/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -196,7 +185,6 @@ app.delete('/users/:Username/Favorites/:MovieID', passport.authenticate('jwt', {
         res.json(updatedUser);
       }
     });
-  // res.send('Deleted ________ from your favorites!');
 });
 
 
@@ -205,7 +193,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
     .then((user) => {
       res.json(user);
     })
-    .catch((err) => {//error callback
+    .catch((err) => {
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
@@ -238,6 +226,4 @@ app.listen(port, '0.0.0.0', () => {
   console.log('The website server is always listening on ' + port);
 });
 
-// app.listen(8080, () => {
-//   console.log('The website server is always listening!');
-// });
+
